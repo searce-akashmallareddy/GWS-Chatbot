@@ -104,7 +104,7 @@ export default function App() {
     // --- API and Logic ---
     const getBotResponse = async (userQuery, currentHistory) => {
         setIsLoading(true);
-        const apiKey = import.meta.env.VITE_API_KEY;
+        const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
         
         const systemInstruction = { role: "user", parts: [{ text: "You are a helpful and friendly expert on Google Workspace..." }] };
