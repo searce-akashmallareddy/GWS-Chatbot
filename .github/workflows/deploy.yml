@@ -27,8 +27,6 @@ jobs:
       # This is the updated "Build" step
       - name: Build
         # This 'env' block makes your secret available to the 'npm run build' command
-        env:
-          VITE_GEMINI_API_KEY: ${{ secrets.VITE_GEMINI_API_KEY }}
         run: npm run build
 
       - name: Deploy to GitHub Pages
