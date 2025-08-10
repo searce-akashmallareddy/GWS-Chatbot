@@ -1,22 +1,37 @@
-name: Deploy on Github Pages
+name: Build and Deploy to GitHub Pages
 
 on:
   workflow_dispatch:
   push:
-    paths-ignore:
-    - '.github/**' # Ignore changes towards the .github directory
     branches:
-    - main
+      - main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Perform Checkout
-      uses: actions/checkout@v2
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: dist
-        publish_branch: gh-pages
+      # 1. Checks out your repository's code
+      - name: Perform Checkout
+        uses: actions/checkout@v4
+
+      # 2. Sets up the Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Or your project's version
+          cache: 'npm'
+
+      # 3. Installs your project's dependencies
+      - name: Install Dependencies
+        run: npm install
+
+      # 4. Runs the build script which CREATES the `dist` folder
+      - name: Build Project
+        run: npm run build
+
+      # 5. Deploys the newly created `dist` folder
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
